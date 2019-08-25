@@ -35,6 +35,8 @@ env | sort
 echo "===> User"
 id
 
+echo "===> Rainbond vars"
+/etc/confluent/docker/rainbondenv
 echo "===> Configuring ..."
 /etc/confluent/docker/configure
 

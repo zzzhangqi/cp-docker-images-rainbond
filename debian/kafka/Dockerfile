@@ -25,28 +25,28 @@ LABEL io.confluent.docker=true
 
 # allow arg override of required env params
 ARG KAFKA_ZOOKEEPER_CONNECT
-ENV KAFKA_ZOOKEEPER_CONNECT=${KAFKA_ZOOKEEPER_CONNECT}
+#ENV KAFKA_ZOOKEEPER_CONNECT=${KAFKA_ZOOKEEPER_CONNECT}
 ARG KAFKA_ADVERTISED_LISTENERS
-ENV KAFKA_ADVERTISED_LISTENERS=${KAFKA_ADVERTISED_LISTENERS}
+#ENV KAFKA_ADVERTISED_LISTENERS=${KAFKA_ADVERTISED_LISTENERS}
 
 ENV COMPONENT=kafka
 
 # primary
 EXPOSE 9092
-
-RUN echo "===> installing ${COMPONENT}..." \
+ADD sources.list /etc/apt/sources.list
+RUN echo "===> installing kafka..." \
     && apt-get update && apt-get install -y confluent-kafka-${SCALA_VERSION}=${KAFKA_VERSION}${CONFLUENT_PLATFORM_LABEL}-${CONFLUENT_DEB_VERSION} \
-    \
+    && apt-get install dnsutils -y \
     && echo "===> clean up ..."  \
     && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* \
     \
-    && echo "===> Setting up ${COMPONENT} dirs..." \
+    && echo "===> Setting up kafka dirs..." \
     && mkdir -p /var/lib/${COMPONENT}/data /etc/${COMPONENT}/secrets\
     && chmod -R ag+w /etc/${COMPONENT} /var/lib/${COMPONENT}/data /etc/${COMPONENT}/secrets \
     && chown -R root:root /var/log/kafka /var/log/confluent /var/lib/kafka /var/lib/zookeeper
 
 
-VOLUME ["/var/lib/${COMPONENT}/data", "/etc/${COMPONENT}/secrets"]
+VOLUME ["/var/lib/kafka/data", "/etc/kafka/secrets"]
 
 COPY include/etc/confluent/docker /etc/confluent/docker
 
