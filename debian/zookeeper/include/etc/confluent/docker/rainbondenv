@@ -3,7 +3,7 @@ set -o nounset \
     -o verbose \
     -o xtrace
 #define ZOOKEEPER_SERVER_ID
-export ZOOKEEPER_SERVER_ID=${HOSTNAME#*-}
+export ZOOKEEPER_SERVER_ID=`expr ${HOSTNAME#*-} + 1`
 
 #define KAFKA_ADVERTISED_LISTENERS
 export ZOOKEEPER_CLIENT_PORT=${ZOOKEEPER_CLIENT_PORT-2181}
