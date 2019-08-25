@@ -70,6 +70,7 @@ export KAFKA_HEAP_OPTS=${JAVA_OPTS-}
 # fi
 
 #detect zookeeper cluster node by hostname
+[[ ${PAUSE-} ]] && sleep $PAUSE
 if [ ${SERVICE_POD_NUM-} -gt 1 ]; then
    declare -a hosts
     for i in $(seq ${SERVICE_POD_NUM-})
