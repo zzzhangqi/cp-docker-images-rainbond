@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -o nounset \
-    -o errexit \
     -o verbose \
     -o xtrace
 #define ZOOKEEPER_SERVER_ID
