@@ -19,6 +19,9 @@ set -o nounset \
     -o verbose \
     -o xtrace
 
+echo "===> Rainbond vars"
+. /etc/confluent/docker/rainbondenv
+
 echo "===> ENV Variables ..."
 env | sort
 
