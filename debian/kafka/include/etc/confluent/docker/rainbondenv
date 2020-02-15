@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-
+set -o nounset \
+    -o errexit \
+    -o verbose \
+    -o xtrace
 #define BROKER_ID
 export KAFKA_BROKER_ID=${HOSTNAME#*-}
 
 #define KAFKA_ADVERTISED_LISTENERS
-export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${POD_IP}:9092
+export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${POD_IP-}:9092
 
 # set default_java_mem_opts
 case ${MEMORY_SIZE:-small} in
@@ -46,28 +49,19 @@ case ${MEMORY_SIZE:-small} in
        ;;
 esac
 
-export JAVA_HOME="$HOME/.jdk"
-#export LD_LIBRARY_PATH="$JAVA_HOME/jre/lib/amd64/server:$LD_LIBRARY_PATH"
-export PATH="$HOME/.heroku/bin:$JAVA_HOME/bin:$PATH"
-#limit=$(ulimit -u)
 
-if [[ "${JAVA_OPTS}" == *-Xmx* ]]; then
+
+if [[ "${JAVA_OPTS-}" == *-Xmx* ]]; then
   export JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS:-"-Dfile.encoding=UTF-8"}
 else
   default_java_opts="${default_java_mem_opts} -Dfile.encoding=UTF-8"
-  export JAVA_OPTS="${default_java_opts} $JAVA_OPTS"
-  if [[ "${DYNO}" != *run.* ]]; then
-    export JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS:-${default_java_opts}}
-  fi
-  if [[ "${DYNO}" == *web.* ]]; then
-    echo "Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them."
-  fi
+  export JAVA_OPTS="${default_java_opts} ${JAVA_OPTS-}"
 fi
 #define KAFKA_HEAP_OPTS
-export KAFKA_HEAP_OPTS=${JAVA_OPTS}
+export KAFKA_HEAP_OPTS=${JAVA_OPTS-}
 
 #detect ZooKeeper cluster 
-if [ ! -n ${DEPEND_SERVICE} ]; then
+if [ ! -n ${DEPEND_SERVICE-} ]; then
    echo "there is no zookeepers on my back... exiting"
    exit 1
 else    
