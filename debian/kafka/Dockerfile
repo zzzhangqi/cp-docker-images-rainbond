@@ -33,7 +33,7 @@ ENV COMPONENT=kafka
 
 # primary
 EXPOSE 9092
-ADD sources.list /etc/apt/sources.list
+# ADD sources.list /etc/apt/sources.list
 RUN echo "===> installing kafka..." \
     && apt-get update && apt-get install -y confluent-kafka-${SCALA_VERSION}=${KAFKA_VERSION}${CONFLUENT_PLATFORM_LABEL}-${CONFLUENT_DEB_VERSION} \
     && apt-get install dnsutils -y \
