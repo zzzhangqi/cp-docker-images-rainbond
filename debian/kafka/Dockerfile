@@ -47,5 +47,4 @@ RUN echo "===> installing kafka..." \
 
 
 COPY include/etc/confluent/docker /etc/confluent/docker
-
 CMD ["/etc/confluent/docker/run"]
