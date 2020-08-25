@@ -65,6 +65,6 @@ if [ ! -n ${DEPEND_SERVICE-} ]; then
    echo "there is no zookeepers on my back... exiting"
    exit 1
 else    
-   zks=$(nslookup ${DEPEND_SERVICE%:*} | grep Address | sed '1d' | awk '{print $2":2181"}')
+   export zks=$(nslookup ${DEPEND_SERVICE%:*} | grep Address | sed '1d' | awk '{print $2":2181"}')
    export KAFKA_ZOOKEEPER_CONNECT=$(echo $zks | tr ' ' ',')
 fi
