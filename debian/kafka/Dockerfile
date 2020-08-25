@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM confluentinc/cp-base
+FROM confluentinc/cp-kafka:5.0.0
 
 ARG COMMIT_ID=unknown
 LABEL io.confluent.docker.git.id=$COMMIT_ID
@@ -35,15 +35,14 @@ ENV COMPONENT=kafka
 EXPOSE 9092
 # ADD sources.list /etc/apt/sources.list
 RUN echo "===> installing kafka..." \
-    && apt-get update && apt-get install -y confluent-kafka-${SCALA_VERSION}=${KAFKA_VERSION}${CONFLUENT_PLATFORM_LABEL}-${CONFLUENT_DEB_VERSION} \
+    && apt-get update \
     && apt-get install dnsutils -y \
-    && echo "===> clean up ..."  \
-    && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* \
-    \
-    && echo "===> Setting up kafka dirs..." \
-    && mkdir -p /var/lib/${COMPONENT}/data /etc/${COMPONENT}/secrets\
-    && chmod -R ag+w /etc/${COMPONENT} /var/lib/${COMPONENT}/data /etc/${COMPONENT}/secrets \
-    && chown -R root:root /var/log/kafka /var/log/confluent /var/lib/kafka /var/lib/zookeeper
+#    && echo "===> clean up ..."  \
+#    && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* \
+#    && echo "===> Setting up kafka dirs..." \
+#    && mkdir -p /var/lib/${COMPONENT}/data /etc/${COMPONENT}/secrets\
+#    && chmod -R ag+w /etc/${COMPONENT} /var/lib/${COMPONENT}/data /etc/${COMPONENT}/secrets \
+#    && chown -R root:root /var/log/kafka /var/log/confluent /var/lib/kafka /var/lib/zookeeper
 
 
 VOLUME ["/var/lib/kafka/data", "/etc/kafka/secrets"]
