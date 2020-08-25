@@ -45,7 +45,6 @@ RUN echo "===> installing kafka..." \
 #    && chown -R root:root /var/log/kafka /var/log/confluent /var/lib/kafka /var/lib/zookeeper
 
 
-VOLUME ["/var/lib/kafka/data", "/etc/kafka/secrets"]
 
 COPY include/etc/confluent/docker /etc/confluent/docker
 
