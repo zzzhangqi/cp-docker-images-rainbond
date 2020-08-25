@@ -34,7 +34,7 @@ EXPOSE 9092
 # ADD sources.list /etc/apt/sources.list
 RUN echo "===> installing kafka..." \
     && apt-get update \
-    && apt-get install dnsutils -y \
+    && apt-get install dnsutils -y
 #    && echo "===> clean up ..."  \
 #    && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* \
 #    && echo "===> Setting up kafka dirs..." \
@@ -44,5 +44,5 @@ RUN echo "===> installing kafka..." \
 
 
 
-COPY include/etc/confluent/docker/* /etc/confluent/docker/
+COPY include/etc/confluent/docker/ /etc/confluent/docker/
 CMD ["/etc/confluent/docker/run"]
